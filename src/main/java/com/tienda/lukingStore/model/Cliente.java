@@ -1,34 +1,44 @@
 package com.tienda.lukingStore.model;
+
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
+@Table(name = "clientes")
 public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 50)
     private String nombre;
 
-    private String email;
+    @Column(nullable = false, unique = true, length = 100)
+    private String correo;
 
+    @Column(length = 15)
+    private String telefono;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pedido> pedidos;
+
+    
     public Cliente() {}
 
-    public Cliente(String nombre, String email) {
+    
+    public Cliente(String nombre, String correo) {
         setNombre(nombre);
-        setEmail(email);
+        setCorreo(correo);
     }
 
+    
     public Long getId() {
         return id;
     }
 
     public String getNombre() {
         return nombre;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     public void setNombre(String nombre) {
@@ -38,10 +48,30 @@ public class Cliente {
         this.nombre = nombre;
     }
 
-    public void setEmail(String email) {
-        if (email == null || !email.contains("@")) {
-            throw new IllegalArgumentException("El email debe ser válido");
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        if (correo == null || !correo.contains("@")) {
+            throw new IllegalArgumentException("El correo no tiene un formato válido");
         }
-        this.email = email;
+        this.correo = correo;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
     }
 }

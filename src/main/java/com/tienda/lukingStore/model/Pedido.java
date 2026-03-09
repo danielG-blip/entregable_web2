@@ -4,14 +4,17 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "pedidos")
 public class Pedido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private LocalDate fecha;
 
+    @Column(nullable = false)
     private double total;
 
     @ManyToOne
@@ -20,26 +23,20 @@ public class Pedido {
 
     public Pedido() {}
 
+    
     public Pedido(LocalDate fecha, double total, Cliente cliente) {
         setFecha(fecha);
         setTotal(total);
         setCliente(cliente);
     }
 
+    
     public Long getId() {
         return id;
     }
 
     public LocalDate getFecha() {
         return fecha;
-    }
-
-    public double getTotal() {
-        return total;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
     }
 
     public void setFecha(LocalDate fecha) {
@@ -49,11 +46,19 @@ public class Pedido {
         this.fecha = fecha;
     }
 
+    public double getTotal() {
+        return total;
+    }
+
     public void setTotal(double total) {
         if (total <= 0) {
             throw new IllegalArgumentException("El total debe ser mayor a 0");
         }
         this.total = total;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
     }
 
     public void setCliente(Cliente cliente) {
