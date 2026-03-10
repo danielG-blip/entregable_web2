@@ -7,20 +7,16 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import scala.collection.immutable.List;
+import java.util.List;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "categorias")
 
 public class Categoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "name", nullable = false, length = 20)
     private String nombre;
@@ -29,17 +25,17 @@ public class Categoria {
     private List<Producto> productos;
 
 
-    public int getId() {
+    public Long getId() {
         return this.id;
     }
 
     public void setId(Long id) {
-    if (id != null && id > 0) {
-        this.id = id.intValue();
-    } else {
-        System.out.println("El id no puede estar vacío");
+        if (id != null && id > 0) {
+            this.id = id;
+        } else {
+            System.out.println("El id no puede estar vacío");
+        }
     }
-}
 
     public String getNombre() {
         return this.nombre;

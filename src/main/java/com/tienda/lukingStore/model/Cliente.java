@@ -13,7 +13,8 @@ public class Cliente {
     @Column(nullable = false, length = 50)
     private String nombre;
 
-    private String email;
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pedido> pedidos = new java.util.ArrayList<>();
 
     public Cliente() {}
 
@@ -41,14 +42,17 @@ public class Cliente {
     }
 
     public void setEmail(String email) {
-        if (email == null || !email.contains("@")) {
+        if (email != null && !email.contains("@")) {
             throw new IllegalArgumentException("El email debe ser válido");
         }
-        this.email = email;
     }
 
     public List<Pedido> getPedidos() {
         return pedidos;
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
     }
 
 }
