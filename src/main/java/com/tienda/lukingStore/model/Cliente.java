@@ -1,5 +1,5 @@
-package com.tienda.lukingStore.model;
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 public class Cliente {
@@ -9,14 +9,13 @@ public class Cliente {
     private Long id;
 
     private String nombre;
+    private String correo;
+    private String telefono;
 
-    private String email;
+    @OneToMany(mappedBy = "cliente")
+    private List<Pedido> pedidos;
 
-    public Cliente() {}
-
-    public Cliente(String nombre, String email) {
-        setNombre(nombre);
-        setEmail(email);
+    public Cliente() {
     }
 
     public Long getId() {
@@ -27,21 +26,38 @@ public class Cliente {
         return nombre;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public void setNombre(String nombre) {
-        if (nombre == null || nombre.isBlank()) {
+
+        if(nombre == null || nombre.isEmpty()){
             throw new IllegalArgumentException("El nombre no puede estar vacío");
         }
+
         this.nombre = nombre;
     }
 
-    public void setEmail(String email) {
-        if (email == null || !email.contains("@")) {
-            throw new IllegalArgumentException("El email debe ser válido");
-        }
-        this.email = email;
+    public String getCorreo() {
+        return correo;
     }
+
+    public void setCorreo(String correo) {
+
+        if(correo == null || !correo.contains("@")){
+            throw new IllegalArgumentException("El correo no tiene un formato válido");
+        }
+
+        this.correo = correo;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
 }
